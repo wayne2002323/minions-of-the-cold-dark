@@ -11,13 +11,13 @@
   integrity="sha256-Qw82+bXyGq6MydymqBxNPYTaUXXq7c8v3CwiYwLLNXU="
   crossorigin="anonymous"></script>
 <script src='jquery.timers.js' type='text/javascript'></script>
-<script async src="https://www.googletagmanager.com/gtag/js?id=278145443"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-YFJYCQ6V88"></script>
 <script>
-window.dataLayer = window.dataLayer || [];
+  window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
 
-  gtag('config', '278145443');
+  gtag('config', 'G-YFJYCQ6V88');
 </script>
 <style type="text/css">
   .body {
@@ -118,19 +118,23 @@ window.dataLayer = window.dataLayer || [];
 </head>
 <body class="body">  
 <script type='text/javascript'>
-    var firstDate = new Date('2021/7/5 15:00');
-    var thisDate = new Date();
-
+	var firstStr = '2021/7/5 15:00';
+	var testDate = ''; 
+    var firstDate = new Date(firstStr);
+    var thisDate = testDate !== '' ? new Date(testDate) : new Date();
+    var eachTime = 2;//每隔2小時
+    var eventarray=['葛爾包亞','群魂重擔','痛苦化身','詛咒的維西亞','剝皮者祖加斯','巨怪戈馬克','哨兵派洛夫斯','吞魂者穆格姆','『哨兵』卡吉亞','普羅馬提茲','哨兵沙科吉斯','仲裁者拉扎剌','古魯庫亞長老','作祟者埃捷爾','錘骨葛拉奇'];
     var hours = Math.abs(thisDate - firstDate) / 36e5;
 
-    var nextDate = new Date(new Date('2021/7/5 19:00').setHours(new Date('2021/7/9 19:00').getHours()));
-    var thistimeDate = new Date(new Date('2021/7/5 17:00').setHours(new Date('2019/7/5 17:00').getHours()));
+	var nexttimes = parseInt((parseInt(hours) / eachTime)) + 1;
+    var nextDate = new Date(new Date(firstStr).setHours(new Date(firstStr).getHours() + (nexttimes * 2)));
 
-    var arrayindex = parseInt((parseInt(hours) / 2) % 15);
+    var thistimes = parseInt((parseInt(hours) / eachTime));
+    var thistimeDate = new Date(new Date(firstStr).setHours(new Date(firstStr).getHours() + thistimes));
+
+    var arrayindex = parseInt((parseInt(hours) / eachTime) % eventarray.length);
     var spantime = (nextDate - thisDate) / 1000;
     var spantime2 = (thistimeDate - thisDate) / 1000;
-  	var eventarray=['葛爾包亞','群魂重擔','痛苦化身','詛咒的維西亞','剝皮者祖加斯','巨怪戈馬克','哨兵派洛夫斯','吞魂者穆格姆','『哨兵』卡吉亞',
-  	'普羅馬提茲','哨兵沙科吉斯','仲裁者拉扎剌','古魯庫亞長老','作祟者埃捷爾','錘骨葛拉奇'];
 
   $(document).ready(function () {
     $('#NEXTDates').html(UTCtoGMT8(thisDate));
@@ -228,7 +232,7 @@ window.dataLayer = window.dataLayer || [];
         var placeindex = arrayindex + 1;
         for (var i = 1; i <= count; i++) {
             var times = (placeindex)  * 2;
-            var startdates = new Date(new Date('2021/7/5 17:00').setHours(new Date('2021/7/5 17:00').getHours() + (times)));
+            var startdates = new Date(new Date(firstStr).setHours(new Date(firstStr).getHours() + (times)));
             placeindex = placeindex === eventarray.length + 1 ? 0 : placeindex + 1;
             var content = '<div class="tabletr">' +
                 '<div class="tabletd tdtime" >' + UTCtoGMT8(startdates) + '</div>' +
