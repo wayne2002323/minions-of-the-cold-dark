@@ -80,12 +80,12 @@
     }
 
     .tdtime {
-        width: 70%;
+        width: 65%;
         background-color: orange;
     }
 
     .tdplace {
-        width: 30%;
+        width: 35%;
         background-color: #E91E63;
     }
   
@@ -121,25 +121,26 @@
 	var firstStr = '2021/7/5 15:00';
 	var testDate = ''; 
     var firstDate = new Date(firstStr);
+    var tableList = 13;
     var thisDate = testDate !== '' ? new Date(testDate) : new Date();
     var eachTime = 2;//每隔2小時
     var eventarray=['葛爾包亞','群魂重擔','痛苦化身','詛咒的維西亞','剝皮者祖加斯','巨怪戈馬克','哨兵派洛夫斯','吞魂者穆格姆','『哨兵』卡吉亞','普羅馬提茲','哨兵沙科吉斯','仲裁者拉扎剌','古魯庫亞長老','作祟者埃捷爾','錘骨葛拉奇'];
     var hours = Math.abs(thisDate - firstDate) / 36e5;
 
-	var nexttimes = parseInt((parseInt(hours) / eachTime)) + 1;
-    var nextDate = new Date(new Date(firstStr).setHours(new Date(firstStr).getHours() + (nexttimes * 2)));
-
     var thistimes = parseInt((parseInt(hours) / eachTime));
     var thistimeDate = new Date(new Date(firstStr).setHours(new Date(firstStr).getHours() + thistimes));
 
-    var arrayindex = parseInt((parseInt(hours) / eachTime) % eventarray.length);
+	var nexttimes = thistimes + 1;
+    var nextDate = new Date(new Date(firstStr).setHours(new Date(firstStr).getHours() + (nexttimes * 2)));
+
+    var arrayindex = parseInt(thistimes % eventarray.length);
     var spantime = (nextDate - thisDate) / 1000;
     var spantime2 = (thistimeDate - thisDate) / 1000;
 
   $(document).ready(function () {
     $('#NEXTDates').html(UTCtoGMT8(thisDate));
     set()
-    getNextTable(10);
+    getNextTable(tableList);
   });
 
       function set() {
@@ -153,12 +154,13 @@
                 var strTime = sp.timestr;
                 var b_strTime = sp2.timestr;
 
-                var nowindex = arrayindex === eventarray.length + 1 ? 0 : arrayindex;
+                var nowindex = arrayindex > (eventarray.length - 1) ? (arrayindex - eventarray.length) : arrayindex;
+                var nextindex = (nowindex + 1)  > (eventarray.length - 1) ? (nowindex + 1 - eventarray.length) : nowindex + 1;
                 b_strTime = spantime2 < 0 ? '已結束' : b_strTime;
 
                 $('#place').html(eventarray[nowindex]);
                 $('#times').html(b_strTime);
-                $('#NEXTplace').html(eventarray[nowindex + 1]);
+                $('#NEXTplace').html(eventarray[nextindex]);
                 $('#NEXTDates').html(UTCtoGMT8(nextDate));
                 $('#NEXTtimes').html(strTime);
 
@@ -192,8 +194,10 @@
     function next() {
         spantime = 2 * 60 * 60;
         spantime2 = 2 * 60 * 60;
-        arrayindex = arrayindex === eventarray.length + 1 ? 0 : arrayindex + 1;
-        getNextTable(10);
+        arrayindex = arrayindex > (eventarray.length - 1) ? 0 : arrayindex + 1;
+        thistimes = arrayindex;
+        nextDate = new Date(new Date(firstStr).setHours(new Date(firstStr).getHours() + ((thistimes + 1) * 2)));
+        getNextTable(tableList);
     }
 
     function UTCtoGMT8(utctime) {
@@ -229,14 +233,17 @@
     }
     function getNextTable(count) {
         $('#nexttable').html('');
-        var placeindex = arrayindex + 1;
+        var placeindex = thistimes + 2;
+
         for (var i = 1; i <= count; i++) {
             var times = (placeindex)  * 2;
             var startdates = new Date(new Date(firstStr).setHours(new Date(firstStr).getHours() + (times)));
-            placeindex = placeindex === eventarray.length + 1 ? 0 : placeindex + 1;
+ 
+            var index = placeindex > (eventarray.length - 1 ) ? (placeindex - eventarray.length )  : placeindex;
+            placeindex += 1;
             var content = '<div class="tabletr">' +
                 '<div class="tabletd tdtime" >' + UTCtoGMT8(startdates) + '</div>' +
-                '<div class="tabletd tdplace" >' + eventarray[placeindex] + '</div>' +
+                '<div class="tabletd tdplace" >' + eventarray[index] + '</div>' +
                 '</div>';
             $('#nexttable').append(content);
         }
