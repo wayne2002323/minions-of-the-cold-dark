@@ -100,6 +100,33 @@
         color: red;
         font-size: 0.9em;
     }
+
+    .setting{
+    	display: none;
+	    color: white;
+	    width: 100%;
+	    height: 89%;
+	    position: fixed;
+	    background-color: cadetblue;
+	    top: 0px;
+	    left: 0px;
+    }
+    .chk{
+   		width: 20px;
+   	 	height: 20px;
+    	margin-left: 30%;
+    }
+    .chk-label{
+    	font-size: 1.5em;
+    }
+     .setting-panel-function{ 
+    	    text-align:center;   	
+    }
+    .setting-panel-function-btn{ 
+
+    	font-size: 1.5em;
+    }
+
     footer {
         color: white;
         text-align: center;
@@ -141,6 +168,7 @@
     $('#NEXTDates').html(UTCtoGMT8(thisDate));
     set()
     getNextTable(tableList);
+    createSettingPanel();
   });
 
       function set() {
@@ -252,6 +280,73 @@
     function padLeft(nr, n, str){
       return Array(n-String(nr).length+1).join(str||'0')+nr;
     }
+
+    function createSettingPanel(){
+    	var panel = $('#setting-panel');
+    	var index = 0;
+		eventarray.forEach(function(item){
+			var template = '<label class="chk-label"><input type="checkbox" class="chk" id="'+ index +'">'+ item +'</label><br/>';			
+			panel.append(template);
+			index++; 
+		});
+		setCookie2Check();
+    }
+
+    function setCheck2Cookie(){
+    	var data = $("input[class=chk]:checked");
+    	var list=[];
+    	for(var i = 0;i < data.length;i++){
+    		list.push(data[i].id);
+    	}
+    	setCookie('setting',list.join(','),365);
+    }
+
+    function setCookie2Check(){
+    	var data = getCookie('setting');
+    	if(data && data !==''){
+    		var list = data.split(',');
+
+    		for(var i = 0;i < list.length;i++){
+    			var id = list[i];
+    			$('#'+ id)[0].checked = true;
+    		}
+    	}
+    }
+    function clearSetting(){
+    	eraseCookie('setting');
+    	var data = $("input[class=chk]");
+    	var list=[];
+    	for(var i = 0;i < data.length;i++){
+    		data[i].checked = false;
+    	}
+    }
+    toggleSetting(){
+    	$('#setting').toggle();
+    }
+
+
+    function setCookie(name,value,days) {
+	    var expires = "";
+	    if (days) {
+	        var date = new Date();
+	        date.setTime(date.getTime() + (days*24*60*60*1000));
+	        expires = "; expires=" + date.toUTCString();
+	    }
+	    document.cookie = name + "=" + (value || "")  + expires + "; path=/";
+	}
+	function getCookie(name) {
+	    var nameEQ = name + "=";
+	    var ca = document.cookie.split(';');
+	    for(var i=0;i < ca.length;i++) {
+	        var c = ca[i];
+	        while (c.charAt(0)==' ') c = c.substring(1,c.length);
+	        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+	    }
+	    return null;
+	}
+	function eraseCookie(name) {   
+	    document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+	}
 </script>
 
     <h1 class="title" id="title">成就-冰冷黑暗的爪牙</h1>
@@ -262,6 +357,15 @@
     <div class="text textdate" id="NEXTDates"></div>
     <div class="text texttime" id="NEXTtimes">00:00:00</div>
     <div class="table" id="nexttable"></div>
+    <div class="setting" id="setting">
+    	 <h1 class="title" id="title">設定</h1>
+    	 <div id="setting-panel"></div>
+    	 <div class="setting-panel-function">
+    	 	<button class="setting-panel-function-btn" onclick="setCheck2Cookie()">確定</button>
+    	 	<button class="setting-panel-function-btn" onclick="clearSetting()">清除</button>
+    	 	<button class="setting-panel-function-btn" onclick="toggleSetting()">關閉</button>
+    	 </div>
+    </div>
     <footer>2021 Designed By 馬神-冰霜之刺</footer>
 </body> 
 </html>
