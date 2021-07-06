@@ -280,7 +280,7 @@
             var flag = checkHighlight(index);
             var highlightclass = flag ? 'highlight' : '';
             var content = '<div class="tabletr">' +
-                '<div class="tabletd tdtime' + highlightclass + '" >' + UTCtoGMT8(startdates) + '</div>' +
+                '<div class="tabletd tdtime ' + highlightclass + '" >' + UTCtoGMT8(startdates) + '</div>' +
                 '<div class="tabletd tdplace ' + highlightclass + '" >' + eventarray[index] + '</div>' +
                 '</div>';
             $('#nexttable').append(content);
