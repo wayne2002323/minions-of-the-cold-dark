@@ -189,8 +189,8 @@
                 var strTime = sp.timestr;
                 var b_strTime = sp2.timestr;
 
-                var nowindex = arrayindex > (eventarray.length - 1) ? (arrayindex - eventarray.length) : arrayindex;
-                var nextindex = (nowindex + 1)  > (eventarray.length - 1) ? (nowindex + 1 - eventarray.length) : nowindex + 1;
+                var nowindex = arrayindex > (eventarray.length - 1) ? parseInt(thistimes % eventarray.length) : arrayindex;
+                var nextindex = (nowindex + 1)  > (eventarray.length - 1) ? ((nowindex + 1) % eventarray.length) : nowindex + 1;
                 b_strTime = spantime2 < 0 ? '已結束' : b_strTime;
 
                 $('#place').html(eventarray[nowindex]);
@@ -274,7 +274,7 @@
             var times = (placeindex)  * 2;
             var startdates = new Date(new Date(firstStr).setHours(new Date(firstStr).getHours() + (times)));
  
-            var index = placeindex > (eventarray.length - 1 ) ? (placeindex - eventarray.length )  : placeindex;
+            var index = placeindex > (eventarray.length - 1 ) ? parseInt(placeindex % eventarray.length )  : placeindex;
             placeindex += 1;
 
             var flag = checkHighlight(index);
