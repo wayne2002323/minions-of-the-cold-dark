@@ -162,7 +162,7 @@
     var hours = Math.abs(thisDate - firstDate) / 36e5;
 
     var thistimes = parseInt((parseInt(hours) / eachTime));
-    var thistimeDate = new Date(new Date(firstStr).setHours(new Date(firstStr).getHours() + thistimes));
+    var thistimeDate = new Date(new Date(firstStr).setHours(new Date(firstStr).getHours() + (thistimes * 2)));
 
 	var nexttimes = thistimes + 1;
     var nextDate = new Date(new Date(firstStr).setHours(new Date(firstStr).getHours() + (nexttimes * 2)));
